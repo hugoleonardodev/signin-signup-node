@@ -1,6 +1,9 @@
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+
+require('dotenv').config({ path: path.resolve(process.cwd(), '.env.test') })
 
 const app = express()
 
@@ -16,7 +19,7 @@ app.use(bodyParser.json())
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const db = require('./models')
+const db = require('./src/models')
 const Role = db.role
 const User = db.user
 
@@ -27,12 +30,12 @@ db.sequelize.sync({ force: true }).then(() => {
 
 // simple route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to bezkoder application.' })
+    res.json({ message: 'Welcome to application.' })
 })
 
 // routes
-require('./routes/auth.routes')(app)
-require('./routes/user.routes')(app)
+require('./src/routes/auth.routes')(app)
+require('./src/routes/user.routes')(app)
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080
@@ -55,29 +58,5 @@ function initial() {
     Role.create({
         id: 3,
         name: 'admin',
-    })
-
-    User.create({
-        id: 1,
-        username: 'admin',
-        password: 'admin',
-        email: 'admin@app.com',
-        roles: ['admin', 'moderator', 'user'],
-    })
-
-    User.create({
-        id: 2,
-        username: 'moderator',
-        password: 'moderator',
-        email: 'moderator@app.com',
-        roles: ['moderator', 'user'],
-    })
-
-    User.create({
-        id: 3,
-        username: 'user',
-        password: 'user',
-        email: 'user@app.com',
-        roles: ['user'],
     })
 }

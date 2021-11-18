@@ -1,5 +1,4 @@
 const db = require('../models')
-const config = require('../configs/auth.config')
 
 const User = db.user
 const Role = db.role
@@ -17,7 +16,7 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(req.body.password, 8),
     })
         .then(user => {
-            if (req.body.roles) {
+            if (req.body.roles && req.body.adminSecret === process.env.SECRET_ADMIN) {
                 Role.findAll({
                     where: {
                         name: {
@@ -30,7 +29,7 @@ exports.signup = (req, res) => {
                     })
                 })
             } else {
-                // user role = 1
+                // user role = 1 => User
                 user.setRoles([1]).then(() => {
                     res.send({ message: 'User was registered successfully!' })
                 })
@@ -61,7 +60,7 @@ exports.signin = (req, res) => {
                 })
             }
 
-            var token = jwt.sign({ id: user.id }, config.secret, {
+            var token = jwt.sign({ id: user.id }, process.env.SECRET_ADMIN, {
                 expiresIn: 86400, // 24 hours
             })
 
