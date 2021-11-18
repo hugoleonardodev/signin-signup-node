@@ -1,0 +1,10 @@
+dist
+coverage
+node_modules
+
+# ./babel.config.js
+# ./package.json
+
+tsconfig.json
+package.json
+package-lock.json
