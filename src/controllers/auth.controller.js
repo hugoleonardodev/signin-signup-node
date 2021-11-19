@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../database/models')
 
 const User = db.user
 const Role = db.role
@@ -16,7 +16,8 @@ exports.signup = (req, res) => {
         password: bcrypt.hashSync(req.body.password, 8),
     })
         .then(user => {
-            if (req.body.roles && req.body.adminSecret === process.env.SECRET_ADMIN) {
+            console.log(user)
+            if (req.body.roles) {
                 Role.findAll({
                     where: {
                         name: {
@@ -29,7 +30,7 @@ exports.signup = (req, res) => {
                     })
                 })
             } else {
-                // user role = 1 => User
+                // user role = 1 => 'user'
                 user.setRoles([1]).then(() => {
                     res.send({ message: 'User was registered successfully!' })
                 })

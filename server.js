@@ -19,10 +19,11 @@ app.use(bodyParser.json())
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const db = require('./src/models')
-const Role = db.role
-const User = db.user
+const db = require('./src/database/models')
 
+const Role = db.role
+
+// development enviroment sequelize
 db.sequelize.sync({ force: true }).then(() => {
     console.log('Drop and Resync Db')
     initial()

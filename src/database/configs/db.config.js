@@ -1,3 +1,7 @@
+const path = require('path')
+
+require('dotenv').config({ path: path.resolve('/home/hugo/node-expres-mysql-jwt', '.env.test') })
+
 module.exports = {
     development: {
         username: process.env.DB_USER,
