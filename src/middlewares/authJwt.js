@@ -12,7 +12,7 @@ verifyToken = (req, res, next) => {
         })
     }
 
-    jwt.verify(token, process.env.SECRET_ADMIN, (err, decoded) => {
+    jwt.verify(token, process.env.ADMIN_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).send({
                 message: 'Unauthorized!',

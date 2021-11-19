@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
     })
         .then(user => {
             console.log(user)
-            if (req.body.roles) {
+            if (req.body.roles && req.body.adminSecret === process.env.ADMIN_SECRET) {
                 Role.findAll({
                     where: {
                         name: {
@@ -61,7 +61,7 @@ exports.signin = (req, res) => {
                 })
             }
 
-            var token = jwt.sign({ id: user.id }, process.env.SECRET_ADMIN, {
+            var token = jwt.sign({ id: user.id }, process.env.ADMIN_SECRET, {
                 expiresIn: 86400, // 24 hours
             })
 

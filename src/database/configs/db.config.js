@@ -1,6 +1,6 @@
 const path = require('path')
 
-require('dotenv').config({ path: path.resolve('/home/hugo/node-expres-mysql-jwt', '.env.test') })
+require('dotenv').config({ path: path.resolve('/home/hugo/node-expres-mysql-jwt', '.env') })
 
 module.exports = {
     development: {
